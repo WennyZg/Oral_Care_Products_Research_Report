@@ -1,0 +1,558 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>口腔护理产品调研报告书</title>
+  <style>
+    :root {
+      --bg: #f4f1e9;
+      --paper: #f7f4ee;
+      --ink: #141414;
+      --muted: #6d6a63;
+      --green: #1b7a5f;
+      --edge: rgba(255, 255, 255, .18);
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg) url("assets/soft-gradient-bg.png") center / cover fixed no-repeat;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      overflow-x: hidden;
+    }
+    .home {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      align-items: center;
+      padding: clamp(28px, 5vw, 64px) clamp(16px, 4vw, 56px) 28px;
+      gap: clamp(18px, 3vw, 34px);
+    }
+    .title-block {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 5.3vw, 72px);
+      line-height: 1;
+      letter-spacing: 0;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+    .headline { min-width: 0; }
+    .project-note {
+      margin-top: 12px;
+      color: rgba(20, 20, 20, .62);
+      font-size: clamp(14px, 1.55vw, 20px);
+      line-height: 1.2;
+    }
+    .module-nav {
+      display: grid;
+      justify-items: end;
+      gap: 8px;
+      margin-bottom: 6px;
+      min-width: 190px;
+      text-align: right;
+    }
+    .module-nav a {
+      color: #189458;
+      text-decoration: none;
+      font-size: clamp(17px, 1.95vw, 25px);
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: 0;
+      transition: transform .18s ease, color .18s ease;
+    }
+    .module-nav a:hover {
+      color: #0f7b48;
+      transform: translateX(-4px);
+    }
+.canvas-wrap {
+      width: min(1120px, 92vw);
+      margin: 0 auto;
+      filter: drop-shadow(0 34px 80px rgba(26, 50, 42, .18));
+    }
+    .page-canvas {
+      position: relative;
+      height: min(58vw, 650px);
+      min-height: 430px;
+      overflow: hidden;
+      border-radius: 18px;
+      background: var(--paper);
+      border: 1px solid rgba(255,255,255,.72);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .04);
+      isolation: isolate;
+    }
+    .page-canvas::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(247,244,238,.84) 0 7%, transparent 18% 82%, rgba(247,244,238,.86) 94% 100%),
+        linear-gradient(180deg, rgba(247,244,238,.92) 0 5%, transparent 16% 84%, rgba(247,244,238,.86) 95% 100%);
+      mix-blend-mode: lighten;
+      opacity: .28;
+    }
+    .feature-card {
+      position: absolute;
+      z-index: 8;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(58%, 720px);
+      padding: 0;
+      border: 0;
+      border-radius: 28px;
+      background: transparent;
+      cursor: pointer;
+      box-shadow: 0 20px 54px rgba(22, 66, 48, .18);
+      transition: transform .24s ease, box-shadow .24s ease, filter .24s ease;
+    }
+    .feature-card img {
+      display: block;
+      width: 100%;
+      border-radius: inherit;
+    }
+    .feature-card:hover {
+      transform: translate(-50%, calc(-50% - 10px)) scale(1.018);
+      box-shadow: 0 30px 78px rgba(22, 66, 48, .26);
+      filter: saturate(1.03);
+    }
+    .feature-card:active {
+      transform: translate(-50%, calc(-50% - 4px)) scale(1.006);
+    }
+    .page-canvas.filtered .feature-card {
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, calc(-50% - 18px)) scale(.94);
+    }
+    .filter-label {
+      position: absolute;
+      z-index: 9;
+      left: 22px;
+      top: 18px;
+      display: none;
+      color: rgba(20, 20, 20, .46);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+    .filter-label span { color: inherit; font-weight: 700; font-size: inherit; }
+    .page-canvas.filtered .filter-label { display: block; }
+    .reset-filter {
+      position: absolute;
+      z-index: 10;
+      right: 18px;
+      top: 16px;
+      display: none;
+      min-height: 32px;
+      border: 1px solid rgba(19, 127, 76, .16);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .54);
+      color: rgba(20, 20, 20, .52);
+      padding: 0 12px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      backdrop-filter: blur(10px);
+    }
+    .page-canvas.filtered .reset-filter { display: inline-flex; align-items: center; }
+    .page-canvas.filtered .thumb {
+      box-shadow: 0 7px 18px rgba(20, 20, 20, .10);
+    }
+    .page-canvas.filtered .thumb:hover {
+      transform: translate(-50%, -50%) rotate(0deg) scale(3.1);
+    }
+    .preview-window {
+      position: absolute;
+      z-index: 8;
+      left: 50%;
+      top: 49%;
+      transform: translate(-50%, -50%) translateY(14px);
+      width: min(58%, 650px);
+      aspect-ratio: 1.414 / 1;
+      display: none;
+      opacity: 0;
+      border: 1px solid rgba(20, 20, 20, .08);
+      border-radius: 10px;
+      background: #fffdf8;
+      box-shadow: 0 24px 60px rgba(28, 42, 36, .16);
+      overflow: hidden;
+      transition: opacity .24s ease, transform .24s ease;
+    }
+    .page-canvas.filtered .preview-window {
+      display: none;
+    }
+    .preview-window img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #fffdf8;
+      cursor: zoom-in;
+    }
+    .preview-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      width: 38px;
+      height: 52px;
+      border: 1px solid rgba(20, 20, 20, .12);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .78);
+      color: rgba(20, 20, 20, .68);
+      cursor: pointer;
+      font-size: 28px;
+      line-height: 1;
+      display: grid;
+      place-items: center;
+      backdrop-filter: blur(10px);
+      transition: transform .18s ease, background .18s ease, color .18s ease;
+    }
+    .preview-nav:hover {
+      transform: translateY(-50%) scale(1.06);
+      background: rgba(255, 255, 255, .96);
+      color: #137f4c;
+    }
+    .preview-prev { left: 12px; }
+    .preview-next { right: 12px; }
+    .preview-count {
+      position: absolute;
+      right: 12px;
+      bottom: 10px;
+      z-index: 2;
+      min-width: 62px;
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: rgba(255, 255, 255, .78);
+      color: rgba(20, 20, 20, .62);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+    .page-canvas.filtered .thumb.active {
+      outline: 2px solid rgba(19, 127, 76, .7);
+      outline-offset: 2px;
+      z-index: 7;
+    }
+    .thumb {
+      position: absolute;
+      z-index: 3;
+      width: var(--w);
+      aspect-ratio: 1.414 / 1;
+      object-fit: cover;
+      background: #ffffff;
+      border: 1px solid rgba(20, 20, 20, .08);
+      box-shadow: 0 7px 18px rgba(0, 0, 0, .10);
+      transform: translate(-50%, -50%) rotate(var(--r));
+      transition: transform .2s ease, box-shadow .2s ease, z-index .2s ease;
+      cursor: zoom-in;
+    }
+    .thumb:hover {
+      z-index: 20;
+      transform: translate(-50%, -50%) rotate(0deg) scale(2.8);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, .28);
+    }
+    .thumb.featured {
+      z-index: 4;
+      width: calc(var(--w) * 1.35);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, .16);
+    }
+    .caption-row {
+      width: min(1120px, 92vw);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      color: rgba(20, 20, 20, .58);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      place-items: center;
+      padding: 28px;
+      background: rgba(0, 0, 0, .78);
+      backdrop-filter: blur(12px);
+    }
+    .modal.open { display: grid; }
+    .modal img {
+      max-width: min(94vw, 1400px);
+      max-height: 90vh;
+      display: block;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, .48);
+    }
+    .modal-nav {
+      position: fixed;
+      top: 50%;
+      z-index: 55;
+      width: 54px;
+      height: 76px;
+      border: 1px solid rgba(255, 255, 255, .22);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      color: white;
+      cursor: pointer;
+      font-size: 42px;
+      line-height: 1;
+      display: none;
+      place-items: center;
+      transform: translateY(-50%);
+      backdrop-filter: blur(12px);
+      transition: background .18s ease, transform .18s ease, opacity .18s ease;
+    }
+    .modal.open .modal-nav { display: grid; }
+    .modal-nav:hover {
+      background: rgba(255, 255, 255, .22);
+      transform: translateY(-50%) scale(1.05);
+    }
+    .modal-prev { left: 26px; }
+    .modal-next { right: 26px; }
+    .modal-page-count {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      z-index: 55;
+      transform: translateX(-50%);
+      display: none;
+      min-width: 76px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .18);
+      color: rgba(255, 255, 255, .86);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      backdrop-filter: blur(12px);
+    }
+    .modal.open .modal-page-count { display: block; }
+    .close {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      min-height: 38px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 8px;
+      background: rgba(255,255,255,.12);
+      color: white;
+      padding: 0 14px;
+      cursor: pointer;
+    }
+    @media (max-width: 760px) {
+      .home { align-items: start; }
+      h1 { white-space: normal; }
+      .title-block { display: grid; }
+      .module-nav { justify-items: start; text-align: left; min-width: 0; }
+      .module-nav a { font-size: 18px; }
+      .canvas-wrap { width: 94vw; }
+      .page-canvas { height: 118vw; min-height: 520px; border-radius: 14px; }
+      .report-title { width: 72%; }
+            .feature-card { width: 82%; border-radius: 18px; }
+      .thumb:hover { transform: translate(-50%, -50%) rotate(0deg) scale(2.1); }
+      .caption-row { display: grid; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="home">
+    <header class="title-block">
+      <div class="headline"><h1>口腔护理产品调研报告书</h1><div class="project-note">（博报堂校企合作项目）</div></div>
+      <nav class="module-nav" aria-label="报告模块导航"><a href="#" data-module="market">产品市场扫描</a><a href="#" data-module="trend">趋势洞察</a><a href="#" data-module="research">用户研究</a></nav>
+    </header>
+
+    <section class="canvas-wrap" aria-label="报告页面图片流首页">
+      <div class="page-canvas" id="canvas">
+        
+        <div class="filter-label" id="filterLabel">产品市场扫描 / 点击页面放大查看</div>
+        <button class="reset-filter" id="resetFilter" type="button">查看全部页面</button>
+                <div class="preview-window" id="previewWindow" aria-label="产品市场扫描页面预览">
+          <button class="preview-nav preview-prev" id="previewPrev" type="button" aria-label="上一页">‹</button>
+          <img id="previewImg" alt="产品市场扫描页面预览">
+          <button class="preview-nav preview-next" id="previewNext" type="button" aria-label="下一页">›</button>
+          <div class="preview-count" id="previewCount">1 / 52</div>
+        </div>
+        <button class="feature-card" id="featureCard" type="button" aria-label="点击查看核心负责内容：产品市场扫描"><img src="assets/core-card.png" alt="点击查看 核心负责内容 产品市场扫描"></button>
+      </div>
+    </section>
+
+    <footer class="caption-row"><span></span><span>点击卡片筛选核心负责内容，点击对应页面放大查看。</span></footer>
+  </main>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <button class="close" id="close" type="button">关闭</button>
+    <button class="modal-nav modal-prev" id="modalPrev" type="button" aria-label="上一页">‹</button>
+    <button class="modal-nav modal-next" id="modalNext" type="button" aria-label="下一页">›</button>
+    <img id="modalImg" alt="报告页面放大预览">
+    <div class="modal-page-count" id="modalPageCount">1 / 1</div>
+  </div>
+
+  <script>
+    const pageCount = 160;
+    const canvas = document.getElementById('canvas');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+    const previewImg = document.getElementById('previewImg');
+    const previewCount = document.getElementById('previewCount');
+    let selectedMarketIndex = 0;
+    const allPages = Array.from({ length: 160 }, (_, index) => index + 1);
+    const marketPages = Array.from({ length: 52 }, (_, index) => index + 2);
+    const featured = new Set([2, 24, 33, 45, 54, 66, 71, 90, 94, 97, 123, 150, 154, 160]);
+    const marketFeatured = new Set([2, 3, 24, 33, 34, 35, 36, 45, 48, 49, 50, 53]);
+    let activePages = allPages;
+    let filterMode = 'all';
+    let modalPages = allPages;
+    let modalIndex = 0;
+    const modalPageCount = document.getElementById('modalPageCount');
+
+
+    function updatePreview(index) {
+      if (filterMode !== 'market') return;
+      selectedMarketIndex = (index + marketPages.length) % marketPages.length;
+      const page = marketPages[selectedMarketIndex];
+      previewImg.src = `pages/page-${String(page).padStart(3, '0')}.jpg`;
+      previewImg.alt = `产品市场扫描第 ${page} 页预览`;
+      previewCount.textContent = `${selectedMarketIndex + 1} / ${marketPages.length}`;
+      canvas.querySelectorAll('.thumb.active').forEach(node => node.classList.remove('active'));
+      const activeThumb = canvas.querySelector(`.thumb[data-page="${page}"]`);
+      if (activeThumb) activeThumb.classList.add('active');
+    }
+    function layout() {
+      const isMobile = window.innerWidth < 760;
+      const total = activePages.length;
+      const isRibbon = filterMode === 'market';
+      const cols = isRibbon ? (isMobile ? 6 : 18) : (isMobile ? 10 : 20);
+      const rows = Math.ceil(total / cols);
+      const xPad = isRibbon ? (isMobile ? 7 : 8) : (isMobile ? 5 : 4);
+      const yPad = isRibbon ? 0 : (isMobile ? 4 : 5);
+      const cellW = (100 - xPad * 2) / cols;
+      const cellH = isRibbon ? (isMobile ? 12.5 : 12.2) : (100 - yPad * 2) / rows;
+      const baseW = isRibbon ? (isMobile ? 13.4 : 5.25) : (isMobile ? 9.2 : 5.8);
+      const ribbonTop = isMobile ? 36 : 46;
+      const frag = document.createDocumentFragment();
+
+      canvas.querySelectorAll('.thumb').forEach(node => node.remove());
+      activePages.forEach((n, index) => {
+        const col = index % cols;
+        const row = Math.floor(index / cols);
+        const waveX = Math.sin(n * 1.37) * (isRibbon ? (isMobile ? .35 : .48) : (isMobile ? 1.2 : 1.55));
+        const waveY = Math.cos(n * .91) * (isRibbon ? (isMobile ? .35 : .42) : (isMobile ? 1.2 : 1.35));
+        const x = xPad + col * cellW + cellW / 2 + waveX;
+        const y = isRibbon ? (ribbonTop + row * cellH + waveY) : (yPad + row * cellH + cellH / 2 + waveY);
+        const r = ((n * 17) % 9) - 4;
+        const img = document.createElement('img');
+        const isFeatured = filterMode === 'market' ? marketFeatured.has(n) : featured.has(n);
+        img.className = 'thumb' + (isFeatured ? ' featured' : '');
+        img.src = `thumbs/thumb-${String(n).padStart(3, '0')}.jpg`;
+        img.dataset.full = `pages/page-${String(n).padStart(3, '0')}.jpg`;
+        img.alt = `报告第 ${n} 页`;
+        img.loading = n < 50 ? 'eager' : 'lazy';
+        img.decoding = 'async';
+        img.style.left = `${x}%`;
+        img.style.top = `${y}%`;
+        img.style.setProperty('--r', `${r}deg`);
+        img.style.setProperty('--w', `${isFeatured ? baseW * 1.12 : baseW}vw`);
+        img.addEventListener('click', () => {
+          if (filterMode === 'market') {
+            const index = marketPages.indexOf(n);
+            if (index >= 0) openModalAt(marketPages, index);
+            return;
+          }
+          return;
+        });
+        frag.appendChild(img);
+      });
+      canvas.appendChild(frag);
+    }
+
+
+    function openModalAt(pages, index) {
+      modalPages = pages;
+      modalIndex = (index + modalPages.length) % modalPages.length;
+      const page = modalPages[modalIndex];
+      modalImg.src = `pages/page-${String(page).padStart(3, '0')}.jpg`;
+      modalImg.alt = `报告第 ${page} 页放大预览`;
+      modalPageCount.textContent = `${modalIndex + 1} / ${modalPages.length}`;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function turnModal(step) {
+      if (!modal.classList.contains('open')) return;
+      openModalAt(modalPages, modalIndex + step);
+    }
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      modalImg.removeAttribute('src');
+    }
+
+    document.getElementById('close').addEventListener('click', closeModal);
+    document.getElementById('modalPrev').addEventListener('click', (event) => { event.stopPropagation(); turnModal(-1); });
+    document.getElementById('modalNext').addEventListener('click', (event) => { event.stopPropagation(); turnModal(1); });
+    document.getElementById('featureCard').addEventListener('click', () => {
+      filterMode = 'market';
+      activePages = marketPages;
+      canvas.classList.add('filtered');
+      layout();
+    });
+    document.getElementById('resetFilter').addEventListener('click', () => {
+      filterMode = 'all';
+      activePages = allPages;
+      canvas.classList.remove('filtered');
+      previewImg.removeAttribute('src');
+      layout();
+    });
+    document.getElementById('previewPrev').addEventListener('click', (event) => {
+      event.stopPropagation();
+      updatePreview(selectedMarketIndex - 1);
+    });
+    document.getElementById('previewNext').addEventListener('click', (event) => {
+      event.stopPropagation();
+      updatePreview(selectedMarketIndex + 1);
+    });
+    previewImg.addEventListener('click', () => {
+      if (!previewImg.src) return;
+      openModalAt(marketPages, selectedMarketIndex);
+    });
+    modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(); });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeModal();
+      if (event.key === 'ArrowLeft') turnModal(-1);
+      if (event.key === 'ArrowRight') turnModal(1);
+    });
+    window.addEventListener('resize', layout);
+    layout();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
